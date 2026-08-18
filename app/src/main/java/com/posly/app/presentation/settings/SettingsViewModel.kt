@@ -39,6 +39,9 @@ class SettingsViewModel @Inject constructor(
     fun updateAddress(address: String) = _settings.update { it.copy(address = address) }
     fun updatePhone(phone: String) = _settings.update { it.copy(phone = phone) }
     fun updateReceiptFooter(footer: String) = _settings.update { it.copy(receiptFooter = footer) }
+    fun updateQrisImageUrl(url: String) = _settings.update { it.copy(qrisImageUrl = url) }
+    fun updatePrintReceiptHeader(enabled: Boolean) = _settings.update { it.copy(printReceiptHeader = enabled) }
+    fun updateAutoPrintReceipt(enabled: Boolean) = _settings.update { it.copy(autoPrintReceipt = enabled) }
     fun updateSavingsPercent(p: Double) = _settings.update { it.copy(savingsPercent = p) }
     fun updateEmergencyPercent(p: Double) = _settings.update { it.copy(emergencyPercent = p) }
     fun updateRestockPercent(p: Double) = _settings.update { it.copy(restockPercent = p) }

@@ -62,18 +62,20 @@ class SettingsRepositoryImpl @Inject constructor(
     private fun StoreSettingsEntity.toDomain() = StoreSettings(
         id = id, storeName = storeName, slogan = slogan, address = address,
         phone = phone, socialMedia = socialMedia, logoUrl = logoUrl,
-        receiptFooter = receiptFooter, savingsPercent = savingsPercent,
-        emergencyPercent = emergencyPercent, restockPercent = restockPercent,
-        transportPercent = transportPercent, supabaseUrl = supabaseUrl,
-        supabaseAnonKey = supabaseAnonKey, updatedAt = updatedAt
+        qrisImageUrl = qrisImageUrl, receiptFooter = receiptFooter,
+        printReceiptHeader = printReceiptHeader, autoPrintReceipt = autoPrintReceipt,
+        savingsPercent = savingsPercent, emergencyPercent = emergencyPercent,
+        restockPercent = restockPercent, transportPercent = transportPercent,
+        supabaseUrl = supabaseUrl, supabaseAnonKey = supabaseAnonKey, updatedAt = updatedAt
     )
 
     private fun StoreSettings.toEntity() = StoreSettingsEntity(
         id = id, storeName = storeName, slogan = slogan, address = address,
         phone = phone, socialMedia = socialMedia, logoUrl = logoUrl,
-        receiptFooter = receiptFooter, savingsPercent = savingsPercent,
-        emergencyPercent = emergencyPercent, restockPercent = restockPercent,
-        transportPercent = transportPercent, supabaseUrl = supabaseUrl,
-        supabaseAnonKey = supabaseAnonKey, updatedAt = updatedAt
+        qrisImageUrl = qrisImageUrl, receiptFooter = receiptFooter,
+        printReceiptHeader = printReceiptHeader, autoPrintReceipt = autoPrintReceipt,
+        savingsPercent = savingsPercent, emergencyPercent = emergencyPercent,
+        restockPercent = restockPercent, transportPercent = transportPercent,
+        supabaseUrl = supabaseUrl, supabaseAnonKey = supabaseAnonKey, updatedAt = updatedAt
     )
 }

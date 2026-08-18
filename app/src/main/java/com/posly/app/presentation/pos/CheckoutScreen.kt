@@ -24,21 +24,17 @@ import com.posly.app.presentation.ui.theme.*
 @Composable
 fun CheckoutScreen(
     viewModel: CheckoutViewModel = hiltViewModel(),
+    posViewModel: PosViewModel = hiltViewModel(),
     onPaymentSuccess: (String) -> Unit,
     onBack: () -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsState()
+    val posState by posViewModel.uiState.collectAsState()
+    val cart = posState.cart
+    val totalAmount = cart.totalAmount
+
     var selectedMethod by remember { mutableStateOf(PaymentMethod.CASH) }
     var paidAmount by remember { mutableStateOf("") }
-
-    LaunchedEffect(uiState) {
-        if (uiState is CheckoutState.Success) {
-            onPaymentSuccess((uiState as CheckoutState.Success).orderId)
-        }
-    }
-
-    val cart = viewModel.cart.collectAsState().value
-    val totalAmount = cart.totalAmount
 
     val quickAmounts = listOf(10_000.0, 20_000.0, 50_000.0, 100_000.0, 200_000.0)
     val paidAmountDouble = paidAmount.toDoubleOrNull() ?: 0.0
@@ -151,7 +147,17 @@ fun CheckoutScreen(
                     PaymentMethod.QRIS -> true
                 }
                 Button(
-                    onClick = { viewModel.processPayment(selectedMethod, paidAmountDouble.takeIf { it > 0 } ?: totalAmount) },
+                    onClick = {
+                        viewModel.processPayment(
+                            cart = cart,
+                            paymentMethod = selectedMethod,
+                            paidAmount = paidAmountDouble.takeIf { it > 0 } ?: totalAmount,
+                            onPaymentDone = { orderId ->
+                                posViewModel.clearCart()
+                                onPaymentSuccess(orderId)
+                            }
+                        )
+                    },
                     modifier = Modifier.fillMaxWidth().height(56.dp),
                     shape = RoundedCornerShape(14.dp),
                     colors = ButtonDefaults.buttonColors(containerColor = Primary),

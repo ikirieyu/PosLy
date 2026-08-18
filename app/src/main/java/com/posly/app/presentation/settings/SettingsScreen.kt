@@ -53,9 +53,43 @@ fun SettingsScreen(
                         SettingsTextField("Slogan", settings.slogan) { viewModel.updateSlogan(it) }
                         SettingsTextField("Alamat", settings.address) { viewModel.updateAddress(it) }
                         SettingsTextField("Nomor WhatsApp / Telepon", settings.phone) { viewModel.updatePhone(it) }
-                        SettingsTextField("Footer Struk", settings.receiptFooter) { viewModel.updateReceiptFooter(it) }
                         Button(onClick = { viewModel.saveSettings() }, modifier = Modifier.fillMaxWidth(), colors = ButtonDefaults.buttonColors(containerColor = Primary), shape = RoundedCornerShape(10.dp)) {
                             Text("Simpan Pengaturan Toko", color = Color.White)
+                        }
+                    }
+                }
+            }
+
+            // ── Receipt settings ──────────────────────────────────────────────
+            item { SettingsSectionHeader("Pengaturan Struk Cetak") }
+            item {
+                Card(shape = RoundedCornerShape(14.dp), colors = CardDefaults.cardColors(containerColor = Color.White), border = BorderStroke(1.dp, BorderDivider)) {
+                    Column(modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                        SettingsTextField("Pesan Footer Struk", settings.receiptFooter) { viewModel.updateReceiptFooter(it) }
+                        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
+                            Text("Cetak Header Nama & Alamat Toko", style = MaterialTheme.typography.bodyMedium)
+                            Switch(checked = settings.printReceiptHeader, onCheckedChange = { viewModel.updatePrintReceiptHeader(it) }, colors = SwitchDefaults.colors(checkedThumbColor = Primary, checkedTrackColor = PrimaryContainer))
+                        }
+                        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
+                            Text("Cetak Otomatis Setelah Bayar", style = MaterialTheme.typography.bodyMedium)
+                            Switch(checked = settings.autoPrintReceipt, onCheckedChange = { viewModel.updateAutoPrintReceipt(it) }, colors = SwitchDefaults.colors(checkedThumbColor = Primary, checkedTrackColor = PrimaryContainer))
+                        }
+                        Button(onClick = { viewModel.saveSettings() }, modifier = Modifier.fillMaxWidth(), colors = ButtonDefaults.buttonColors(containerColor = Primary), shape = RoundedCornerShape(10.dp)) {
+                            Text("Simpan Pengaturan Struk", color = Color.White)
+                        }
+                    }
+                }
+            }
+
+            // ── QRIS Photo settings ───────────────────────────────────────────
+            item { SettingsSectionHeader("Pengaturan Kode QRIS Toko") }
+            item {
+                Card(shape = RoundedCornerShape(14.dp), colors = CardDefaults.cardColors(containerColor = Color.White), border = BorderStroke(1.dp, BorderDivider)) {
+                    Column(modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                        SettingsTextField("URL Gambar Kode QRIS", settings.qrisImageUrl ?: "") { viewModel.updateQrisImageUrl(it) }
+                        Text("Masukkan URL gambar QRIS usaha Anda untuk ditampilkan saat pembayaran QRIS.", style = MaterialTheme.typography.bodySmall, color = TextSecondary)
+                        Button(onClick = { viewModel.saveSettings() }, modifier = Modifier.fillMaxWidth(), colors = ButtonDefaults.buttonColors(containerColor = Primary), shape = RoundedCornerShape(10.dp)) {
+                            Text("Simpan Foto QRIS", color = Color.White)
                         }
                     }
                 }

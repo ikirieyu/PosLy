@@ -13,7 +13,10 @@ data class StoreSettings(
     val phone: String = "",
     val socialMedia: String = "",
     val logoUrl: String? = null,
+    val qrisImageUrl: String? = null,
     val receiptFooter: String = "Terima kasih atas kunjungan Anda!",
+    val printReceiptHeader: Boolean = true,
+    val autoPrintReceipt: Boolean = false,
     // Budget allocation percentages (must sum to 100)
     val savingsPercent: Double = 30.0,      // Tabungan Bisnis
     val emergencyPercent: Double = 20.0,    // Dana Darurat
