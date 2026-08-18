@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">PosLy</string>
+    <string name="app_tagline">Kasir &amp; Finansial UMKM</string>
+    <string name="btn_process_payment">Proses Bayar</string>
+    <string name="btn_add_to_cart">Tambah ke Keranjang</string>
+    <string name="label_total">Total</string>
+    <string name="label_cashier">Kasir</string>
+    <string name="label_invoice">No. Invoice</string>
+    <string name="msg_payment_success">Pembayaran Berhasil!</string>
+    <string name="msg_cart_empty">Keranjang masih kosong</string>
+    <string name="label_omzet">Omzet Penjualan</string>
+    <string name="label_hpp">Total HPP</string>
+    <string name="label_laba_kotor">Laba Kotor</string>
+    <string name="label_laba_bersih">Laba Bersih</string>
+    <string name="hint_search_product">Cari produk atau scan barcode...</string>
+</resources>
