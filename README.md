@@ -18,8 +18,17 @@
   <table>
     <tr>
       <td align="center" width="33%">
+        <b>Registrasi Akun Owner</b><br/><br/>
+        <img src="docs/screenshots/daftar_owner.jpg" width="100%" alt="Daftar Akun Owner" />
+      </td>
+      <td align="center" width="33%">
         <b>Layar Kasir (POS)</b><br/><br/>
         <img src="docs/screenshots/kasir.jpg" width="100%" alt="Kasir POS" />
+      </td>
+      <tr>
+      <td align="center" width="33%">
+        <b>Riwayat Transaksi</b><br/><br/>
+        <img src="docs/screenshots/riwayat.jpg" width="100%" alt="Riwayat Transaksi" />
       </td>
       <td align="center" width="33%">
         <b>Laporan Finansial</b><br/><br/>
@@ -30,15 +39,6 @@
         <img src="docs/screenshots/pengaturan.jpg" width="100%" alt="Pengaturan Toko" />
       </td>
     </tr>
-    <tr>
-      <td align="center" width="33%">
-        <b>Riwayat Transaksi</b><br/><br/>
-        <img src="docs/screenshots/riwayat.jpg" width="100%" alt="Riwayat Transaksi" />
-      </td>
-      <td align="center" width="33%">
-        <b>Registrasi Akun Owner</b><br/><br/>
-        <img src="docs/screenshots/daftar_owner.jpg" width="100%" alt="Daftar Akun Owner" />
-      </td>
       <td align="center" width="33%">
         <b>Multi-Platform Support</b><br/><br/>
         <p>📱 Mobile Phone (Single Pane)<br/>📐 Tablet & POS Terminal (Split Pane)</p>
