@@ -18,29 +18,29 @@
   <table>
     <tr>
       <td align="center" width="33%">
-        <b>Registrasi Akun Owner</b><br/><br/>
-        <img src="docs/screenshots/daftar_owner.jpg" width="100%" alt="Daftar Akun Owner" />
+        <b>1. Akun Owner</b><br/><br/>
+        <img src="docs/screenshots/daftar_owner.jpg" width="100%" alt="Akun Owner" />
       </td>
       <td align="center" width="33%">
-        <b>Layar Kasir (POS)</b><br/><br/>
-        <img src="docs/screenshots/kasir.jpg" width="100%" alt="Kasir POS" />
+        <b>2. Layar Kasir (POS)</b><br/><br/>
+        <img src="docs/screenshots/kasir.jpg" width="100%" alt="Layar Kasir" />
       </td>
-      <tr>
       <td align="center" width="33%">
-        <b>Riwayat Transaksi</b><br/><br/>
+        <b>3. Riwayat Transaksi</b><br/><br/>
         <img src="docs/screenshots/riwayat.jpg" width="100%" alt="Riwayat Transaksi" />
       </td>
+    </tr>
+    <tr>
       <td align="center" width="33%">
-        <b>Laporan Finansial</b><br/><br/>
+        <b>4. Laporan Finansial</b><br/><br/>
         <img src="docs/screenshots/laporan.jpg" width="100%" alt="Laporan Finansial" />
       </td>
       <td align="center" width="33%">
-        <b>Pengaturan Toko & QRIS</b><br/><br/>
+        <b>5. Pengaturan Toko & QRIS</b><br/><br/>
         <img src="docs/screenshots/pengaturan.jpg" width="100%" alt="Pengaturan Toko" />
       </td>
-    </tr>
       <td align="center" width="33%">
-        <b>Multi-Platform Support</b><br/><br/>
+        <b>Multi-Device Support</b><br/><br/>
         <p>📱 Mobile Phone (Single Pane)<br/>📐 Tablet & POS Terminal (Split Pane)</p>
       </td>
     </tr>
