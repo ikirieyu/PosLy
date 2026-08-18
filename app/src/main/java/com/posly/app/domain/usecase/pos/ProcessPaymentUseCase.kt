@@ -10,6 +10,7 @@ import com.posly.app.domain.model.SyncStatus
 import com.posly.app.domain.repository.AuthRepository
 import com.posly.app.domain.repository.OrderRepository
 import com.posly.app.domain.repository.ProductRepository
+import kotlinx.coroutines.flow.first
 import java.util.UUID
 import javax.inject.Inject
 
@@ -30,12 +31,7 @@ class ProcessPaymentUseCase @Inject constructor(
         if (cart.isEmpty) error("Cart is empty")
         if (paidAmount < cart.totalAmount) error("Paid amount insufficient")
 
-        val cashierId = authRepository.currentProfile.let { flow ->
-            // Collect current value synchronously
-            var id = ""
-            kotlinx.coroutines.flow.first(flow)?.let { id = it.id }
-            id
-        }
+        val cashierId = authRepository.currentProfile.first()?.id ?: ""
 
         val invoiceNumber = orderRepository.generateInvoiceNumber()
         val changeAmount = paidAmount - cart.totalAmount

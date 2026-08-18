@@ -30,7 +30,7 @@ interface AuthRepository {
     suspend fun registerWorker(name: String, email: String, password: String): Result<Profile>
 
     /** Get all worker profiles (Owner only) */
-    suspend fun getAllWorkers(): Flow<List<Profile>>
+    fun getAllWorkers(): Flow<List<Profile>>
 
     /** Deactivate a worker account */
     suspend fun deactivateWorker(workerId: String): Result<Unit>

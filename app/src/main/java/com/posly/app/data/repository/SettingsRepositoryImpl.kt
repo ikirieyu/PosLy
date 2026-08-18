@@ -5,6 +5,7 @@ import com.posly.app.data.local.entity.StoreSettingsEntity
 import com.posly.app.data.remote.SupabaseClientProvider
 import com.posly.app.domain.model.StoreSettings
 import com.posly.app.domain.repository.SettingsRepository
+import io.github.jan.supabase.auth.auth
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject

@@ -1,5 +1,6 @@
 package com.posly.app.presentation.products
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -99,6 +100,18 @@ fun ProductListItem(product: Product, onClick: () -> Unit) {
 
 // ── ProductDetailScreen ─────────────────────────────────────────────────────
 
+@Composable
+fun ProductField(label: String, value: String, onValueChange: (String) -> Unit, suffix: String? = null) {
+    OutlinedTextField(
+        value = value, onValueChange = onValueChange,
+        label = { Text(label) },
+        suffix = suffix?.let { { Text(it) } },
+        modifier = Modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(12.dp),
+        colors = OutlinedTextFieldDefaults.colors(focusedBorderColor = Primary, focusedLabelColor = Primary)
+    )
+}
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProductDetailScreen(
@@ -141,21 +154,11 @@ fun ProductDetailScreen(
             verticalArrangement = Arrangement.spacedBy(14.dp)
         ) {
             item {
-                fun field(label: String, value: String, onValueChange: (String) -> Unit, suffix: String? = null) {
-                    OutlinedTextField(
-                        value = value, onValueChange = onValueChange,
-                        label = { Text(label) },
-                        suffix = suffix?.let { { Text(it) } },
-                        modifier = Modifier.fillMaxWidth(),
-                        shape = RoundedCornerShape(12.dp),
-                        colors = OutlinedTextFieldDefaults.colors(focusedBorderColor = Primary, focusedLabelColor = Primary)
-                    )
-                }
                 Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-                    field("Nama Produk *", name, { name = it })
-                    field("SKU", sku, { sku = it })
-                    field("Harga Modal (HPP)", costPrice, { costPrice = it }, "Rp")
-                    field("Harga Jual", sellingPrice, { sellingPrice = it }, "Rp")
+                    ProductField("Nama Produk *", name, { name = it })
+                    ProductField("SKU", sku, { sku = it })
+                    ProductField("Harga Modal (HPP)", costPrice, { costPrice = it }, "Rp")
+                    ProductField("Harga Jual", sellingPrice, { sellingPrice = it }, "Rp")
 
                     // Margin preview
                     if (marginPercent > 0) {

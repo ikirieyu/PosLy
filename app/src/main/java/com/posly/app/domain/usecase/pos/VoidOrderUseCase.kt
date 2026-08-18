@@ -2,6 +2,7 @@ package com.posly.app.domain.usecase.pos
 
 import com.posly.app.domain.repository.AuthRepository
 import com.posly.app.domain.repository.OrderRepository
+import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 
 /**
