@@ -103,14 +103,4 @@ class OrderRepositoryImpl @Inject constructor(
         quantity = quantity, unitCost = unitCost, unitPrice = unitPrice,
         discountPerItem = discountPerItem, subtotal = subtotal, note = note
     )
-
-    private fun OrderEntity.toDomain(): Order = Order(
-        id = id, invoiceNumber = invoiceNumber, cashierId = cashierId,
-        cashierName = cashierName, totalAmount = totalAmount, totalCost = totalCost,
-        discountAmount = discountAmount, paidAmount = paidAmount, changeAmount = changeAmount,
-        paymentMethod = PaymentMethod.valueOf(paymentMethod),
-        status = OrderStatus.valueOf(status),
-        voidReason = voidReason, voidApprovedBy = voidApprovedBy,
-        createdAt = createdAt, syncStatus = SyncStatus.valueOf(syncStatus)
-    )
 }
