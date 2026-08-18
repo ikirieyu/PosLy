@@ -11,6 +11,7 @@ data class Profile(
     val email: String = "",
     val role: UserRole,
     val pinCode: String? = null,
+    val avatarUrl: String? = null,
     val createdAt: Long = System.currentTimeMillis(),
     val updatedAt: Long = System.currentTimeMillis()
 )

@@ -123,11 +123,11 @@ class AuthRepositoryImpl @Inject constructor(
     private fun ProfileEntity.toDomain() = Profile(
         id = id, name = name, email = email,
         role = if (role == "owner") UserRole.OWNER else UserRole.WORKER,
-        pinCode = pinCode
+        pinCode = pinCode, avatarUrl = avatarUrl
     )
 
     private fun Profile.toEntity() = ProfileEntity(
         id = id, name = name, email = email,
-        role = role.name.lowercase(), pinCode = pinCode
+        role = role.name.lowercase(), pinCode = pinCode, avatarUrl = avatarUrl
     )
 }

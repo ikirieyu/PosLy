@@ -51,6 +51,18 @@ fun TabletPosLayout(
     onBarcodeScanned: (String) -> Unit,
     onManageProducts: () -> Unit
 ) {
+    var showScanner by remember { mutableStateOf(false) }
+
+    if (showScanner) {
+        com.posly.app.presentation.components.BarcodeScannerDialog(
+            onBarcodeScanned = { barcode ->
+                onBarcodeScanned(barcode)
+                showScanner = false
+            },
+            onDismiss = { showScanner = false }
+        )
+    }
+
     Row(
         modifier = Modifier
             .fillMaxSize()
@@ -74,7 +86,7 @@ fun TabletPosLayout(
                 SearchBar(
                     query = uiState.searchQuery,
                     onQueryChange = onSearchChange,
-                    onBarcodeClick = { /* launch camera */ },
+                    onBarcodeClick = { showScanner = true },
                     modifier = Modifier.weight(1f)
                 )
                 IconButton(onClick = onManageProducts) {

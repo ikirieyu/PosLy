@@ -119,6 +119,7 @@ fun ProductDetailScreen(
     viewModel: ProductsViewModel = hiltViewModel(),
     onBack: () -> Unit
 ) {
+    val context = androidx.compose.ui.platform.LocalContext.current
     val isNew = productId == "new"
     var name by remember { mutableStateOf("") }
     var sku by remember { mutableStateOf("") }
@@ -126,6 +127,32 @@ fun ProductDetailScreen(
     var sellingPrice by remember { mutableStateOf("") }
     var stock by remember { mutableStateOf("") }
     var minStock by remember { mutableStateOf("5") }
+    var imageUrl by remember { mutableStateOf<String?>(null) }
+    var showScanner by remember { mutableStateOf(false) }
+
+    // Launcher Galeri
+    val galleryLauncher = androidx.activity.compose.rememberLauncherForActivityResult(
+        contract = androidx.activity.result.contract.ActivityResultContracts.GetContent()
+    ) { uri: android.net.Uri? ->
+        uri?.let { imageUrl = it.toString() }
+    }
+
+    // Launcher Kamera Langsung
+    var tempCameraUri by remember { mutableStateOf<android.net.Uri?>(null) }
+    val cameraLauncher = androidx.activity.compose.rememberLauncherForActivityResult(
+        contract = androidx.activity.result.contract.ActivityResultContracts.TakePicture()
+    ) { success: Boolean ->
+        if (success && tempCameraUri != null) {
+            imageUrl = tempCameraUri.toString()
+        }
+    }
+
+    fun launchCamera() {
+        val file = java.io.File(context.externalCacheDir, "product_${System.currentTimeMillis()}.jpg")
+        val uri = androidx.core.content.FileProvider.getUriForFile(context, "${context.packageName}.fileprovider", file)
+        tempCameraUri = uri
+        cameraLauncher.launch(uri)
+    }
 
     val marginPercent = remember(costPrice, sellingPrice) {
         val c = costPrice.toDoubleOrNull() ?: 0.0
@@ -133,10 +160,21 @@ fun ProductDetailScreen(
         if (s > 0) ((s - c) / s * 100) else 0.0
     }
 
+    if (showScanner) {
+        com.posly.app.presentation.components.BarcodeScannerDialog(
+            onBarcodeScanned = { scannedCode ->
+                sku = scannedCode
+                showScanner = false
+            },
+            onDismiss = { showScanner = false }
+        )
+    }
+
     LaunchedEffect(productId) {
         if (!isNew) viewModel.loadProduct(productId) { p ->
             name = p.name; sku = p.sku; costPrice = p.costPrice.toString()
             sellingPrice = p.sellingPrice.toString(); stock = p.stock.toString(); minStock = p.minStockAlert.toString()
+            imageUrl = p.imageUrl
         }
     }
 
@@ -155,8 +193,43 @@ fun ProductDetailScreen(
         ) {
             item {
                 Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                    // ── Foto Produk Card ─────────────────────────────────────────
+                    Card(shape = RoundedCornerShape(12.dp), colors = CardDefaults.cardColors(containerColor = Color.White), border = BorderStroke(1.dp, BorderDivider)) {
+                        Column(modifier = Modifier.padding(14.dp), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                            Text("Foto Produk", style = MaterialTheme.typography.titleSmall, color = TextPrimary)
+                            Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                                OutlinedButton(onClick = { galleryLauncher.launch("image/*") }, shape = RoundedCornerShape(10.dp)) {
+                                    Icon(Icons.Default.PhotoLibrary, contentDescription = null)
+                                    Spacer(modifier = Modifier.width(6.dp))
+                                    Text("Galeri")
+                                }
+                                Button(onClick = { launchCamera() }, colors = ButtonDefaults.buttonColors(containerColor = Primary), shape = RoundedCornerShape(10.dp)) {
+                                    Icon(Icons.Default.PhotoCamera, contentDescription = null, tint = Color.White)
+                                    Spacer(modifier = Modifier.width(6.dp))
+                                    Text("Kamera", color = Color.White)
+                                }
+                            }
+                            if (!imageUrl.isNullOrBlank()) {
+                                Text("Foto terpilih!", style = MaterialTheme.typography.bodySmall, color = SuccessGreen)
+                            }
+                        }
+                    }
+
                     ProductField("Nama Produk *", name, { name = it })
-                    ProductField("SKU", sku, { sku = it })
+
+                    // SKU + Scan Barcode Button
+                    Row(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
+                        Box(modifier = Modifier.weight(1f)) {
+                            ProductField("SKU / Barcode", sku, { sku = it })
+                        }
+                        IconButton(
+                            onClick = { showScanner = true },
+                            modifier = Modifier.background(PrimaryContainer, RoundedCornerShape(10.dp)).size(52.dp)
+                        ) {
+                            Icon(Icons.Default.QrCodeScanner, contentDescription = "Scan Barcode Kamera", tint = Primary)
+                        }
+                    }
+
                     ProductField("Harga Modal (HPP)", costPrice, { costPrice = it }, "Rp")
                     ProductField("Harga Jual", sellingPrice, { sellingPrice = it }, "Rp")
 

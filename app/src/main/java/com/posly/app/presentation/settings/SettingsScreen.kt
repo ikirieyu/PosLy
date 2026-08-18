@@ -84,10 +84,27 @@ fun SettingsScreen(
             // ── QRIS Photo settings ───────────────────────────────────────────
             item { SettingsSectionHeader("Pengaturan Kode QRIS Toko") }
             item {
+                val qrisPicker = androidx.activity.compose.rememberLauncherForActivityResult(
+                    contract = androidx.activity.result.contract.ActivityResultContracts.GetContent()
+                ) { uri: android.net.Uri? ->
+                    uri?.let { viewModel.updateQrisImageUrl(it.toString()) }
+                }
                 Card(shape = RoundedCornerShape(14.dp), colors = CardDefaults.cardColors(containerColor = Color.White), border = BorderStroke(1.dp, BorderDivider)) {
                     Column(modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
-                        SettingsTextField("URL Gambar Kode QRIS", settings.qrisImageUrl ?: "") { viewModel.updateQrisImageUrl(it) }
-                        Text("Masukkan URL gambar QRIS usaha Anda untuk ditampilkan saat pembayaran QRIS.", style = MaterialTheme.typography.bodySmall, color = TextSecondary)
+                        Text("Foto Kode QRIS", style = MaterialTheme.typography.titleSmall, color = TextPrimary)
+                        OutlinedButton(
+                            onClick = { qrisPicker.launch("image/*") },
+                            modifier = Modifier.fillMaxWidth(),
+                            shape = RoundedCornerShape(10.dp)
+                        ) {
+                            Icon(Icons.Default.PhotoLibrary, contentDescription = null)
+                            Spacer(modifier = Modifier.width(8.dp))
+                            Text("Pilih Foto QRIS dari Galeri")
+                        }
+                        if (!settings.qrisImageUrl.isNullOrBlank()) {
+                            Text("QRIS Terpilih: ${settings.qrisImageUrl}", style = MaterialTheme.typography.bodySmall, color = SuccessGreen)
+                        }
+                        SettingsTextField("Atau Masukkan URL Gambar QRIS", settings.qrisImageUrl ?: "") { viewModel.updateQrisImageUrl(it) }
                         Button(onClick = { viewModel.saveSettings() }, modifier = Modifier.fillMaxWidth(), colors = ButtonDefaults.buttonColors(containerColor = Primary), shape = RoundedCornerShape(10.dp)) {
                             Text("Simpan Foto QRIS", color = Color.White)
                         }

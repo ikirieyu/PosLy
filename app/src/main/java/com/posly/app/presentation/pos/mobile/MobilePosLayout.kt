@@ -53,6 +53,17 @@ fun MobilePosLayout(
 ) {
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = false)
     var showCartSheet by remember { mutableStateOf(false) }
+    var showScanner by remember { mutableStateOf(false) }
+
+    if (showScanner) {
+        com.posly.app.presentation.components.BarcodeScannerDialog(
+            onBarcodeScanned = { barcode ->
+                onBarcodeScanned(barcode)
+                showScanner = false
+            },
+            onDismiss = { showScanner = false }
+        )
+    }
 
     Box(modifier = Modifier.fillMaxSize().background(Background)) {
         Column(modifier = Modifier.fillMaxSize()) {
@@ -60,7 +71,7 @@ fun MobilePosLayout(
             SearchBar(
                 query = uiState.searchQuery,
                 onQueryChange = onSearchChange,
-                onBarcodeClick = { /* launch camera */ },
+                onBarcodeClick = { showScanner = true },
                 modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 10.dp)
             )
 
