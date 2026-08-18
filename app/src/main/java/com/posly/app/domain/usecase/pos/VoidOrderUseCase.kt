@@ -27,7 +27,7 @@ class VoidOrderUseCase @Inject constructor(
         when {
             currentRole == com.posly.app.domain.model.UserRole.OWNER -> {
                 // Owner can void directly — get their profile ID
-                approvedBy = kotlinx.coroutines.flow.first(authRepository.currentProfile)?.id
+                approvedBy = authRepository.currentProfile.first()?.id
                     ?: error("Owner profile not found")
             }
             ownerPin != null -> {

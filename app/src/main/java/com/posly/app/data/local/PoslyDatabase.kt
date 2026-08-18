@@ -35,7 +35,9 @@ abstract class PoslyDatabase : RoomDatabase() {
             val builder = Room.databaseBuilder(context, PoslyDatabase::class.java, DB_NAME)
                 .fallbackToDestructiveMigration()
             runCatching {
-                val factory = net.sqlcipher.database.SupportFactory(passphrase)
+                val clazz = Class.forName("net.sqlcipher.database.SupportFactory")
+                val constructor = clazz.getConstructor(ByteArray::class.java)
+                val factory = constructor.newInstance(passphrase) as androidx.sqlite.db.SupportSQLiteOpenHelper.Factory
                 builder.openHelperFactory(factory)
             }
             return builder.build()

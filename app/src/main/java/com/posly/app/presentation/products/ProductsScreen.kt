@@ -170,8 +170,8 @@ fun ProductDetailScreen(
                         }
                     }
 
-                    field("Stok Awal", stock, { stock = it })
-                    field("Minimum Stok Alert", minStock, { minStock = it })
+                    ProductField("Stok Awal", stock, { stock = it })
+                    ProductField("Minimum Stok Alert", minStock, { minStock = it })
 
                     Spacer(modifier = Modifier.height(8.dp))
                     Button(
