@@ -1,103 +1,141 @@
 # PosLy 🏪
 
-**Aplikasi POS & Manajemen Finansial UMKM** — Native Android (Kotlin + Jetpack Compose)
+> **Aplikasi Kasir & Manajemen Finansial Modern untuk UMKM**  
+> Native Android (Kotlin + Jetpack Compose) — *Offline-First, Realtime Sync, & Automated Budget Allocation*
 
-[![Android](https://img.shields.io/badge/Platform-Android-green?logo=android)](https://android.com)
-[![Kotlin](https://img.shields.io/badge/Language-Kotlin-7F52FF?logo=kotlin)](https://kotlinlang.org)
-[![Compose](https://img.shields.io/badge/UI-Jetpack%20Compose-4285F4?logo=jetpackcompose)](https://developer.android.com/jetpack/compose)
-[![Supabase](https://img.shields.io/badge/Backend-Supabase-3ECF8E?logo=supabase)](https://supabase.com)
+[![Android](https://img.shields.io/badge/Platform-Android_8.0+-3DDC84?logo=android&logoColor=white)](https://android.com)
+[![Kotlin](https://img.shields.io/badge/Language-Kotlin_2.0-7F52FF?logo=kotlin&logoColor=white)](https://kotlinlang.org)
+[![Compose](https://img.shields.io/badge/UI-Jetpack_Compose-4285F4?logo=jetpackcompose&logoColor=white)](https://developer.android.com/jetpack/compose)
+[![Architecture](https://img.shields.io/badge/Architecture-Clean_%2B_MVVM-FF6F00)](https://developer.android.com/topic/architecture)
+[![Database](https://img.shields.io/badge/Database-Room_%2B_Supabase-3ECF8E?logo=supabase&logoColor=white)](https://supabase.com)
 [![License](https://img.shields.io/badge/License-MIT-blue)](LICENSE)
+
+---
+
+## 📸 Tampilan Aplikasi
+
+<div align="center">
+  <table>
+    <tr>
+      <td align="center" width="33%">
+        <b>Layar Kasir (POS)</b><br/><br/>
+        <img src="docs/screenshots/kasir.jpg" width="100%" alt="Kasir POS" />
+      </td>
+      <td align="center" width="33%">
+        <b>Laporan Finansial</b><br/><br/>
+        <img src="docs/screenshots/laporan.jpg" width="100%" alt="Laporan Finansial" />
+      </td>
+      <td align="center" width="33%">
+        <b>Pengaturan Toko & QRIS</b><br/><br/>
+        <img src="docs/screenshots/pengaturan.jpg" width="100%" alt="Pengaturan Toko" />
+      </td>
+    </tr>
+    <tr>
+      <td align="center" width="33%">
+        <b>Riwayat Transaksi</b><br/><br/>
+        <img src="docs/screenshots/riwayat.jpg" width="100%" alt="Riwayat Transaksi" />
+      </td>
+      <td align="center" width="33%">
+        <b>Registrasi Akun Owner</b><br/><br/>
+        <img src="docs/screenshots/daftar_owner.jpg" width="100%" alt="Daftar Akun Owner" />
+      </td>
+      <td align="center" width="33%">
+        <b>Multi-Platform Support</b><br/><br/>
+        <p>📱 Mobile Phone (Single Pane)<br/>📐 Tablet & POS Terminal (Split Pane)</p>
+      </td>
+    </tr>
+  </table>
+</div>
 
 ---
 
 ## ✨ Fitur Utama
 
-- 🛒 **POS Kasir Adaptif** — Split-pane tablet / single-pane mobile
-- 📦 **Manajemen Produk & Inventaris** — HPP, harga jual, stok otomatis
-- 🖨️ **Cetak Struk Thermal** — Bluetooth SPP & Wi-Fi TCP/IP (ESC/POS)
-- 📊 **Dashboard Finansial** — Omzet, HPP, Laba Kotor, Laba Bersih
-- 💰 **Budget Allocation Engine** — Otomasi distribusi dana ke 4 pos
-- 📁 **Ekspor Excel (.xlsx)** — Formula aktif via Apache POI
-- 🔄 **Offline-First Sync** — Room DB lokal + WorkManager → Supabase
-- 🔐 **RBAC** — Owner vs Worker dengan PIN approval untuk void
+- 🛒 **POS Kasir Adaptif** — Tampilan otomatis menyesuaikan perangkat (Single-pane pada ponsel, Split-pane katalog & keranjang pada tablet 840dp+).
+- 📷 **Scan Barcode Kamera Native** — Pemindaian barcode produk menggunakan kamera Android langsung berbasis ML Kit Barcode Scanning.
+- 🖼️ **Manajemen Produk & Foto** — Upload foto produk dari Galeri HP/Tablet atau foto langsung via Kamera. Pencatatan HPP, harga jual, perhitungan persentase margin otomatis, serta notifikasi stok minimum.
+- 📊 **Laporan Finansial & Budget Allocation Engine** — Perhitungan otomatis Omzet, HPP, Laba Kotor, Laba Bersih, dan fitur pembagian alokasi kas usaha (30% Tabungan, 20% Darurat, 35% Restock, 15% Operasional).
+- 💳 **Pembayaran Tunai & QRIS** — Perhitungan nominal pembayaran & kembalian otomatis, serta integrasi foto QRIS toko dari galeri.
+- 🖨️ **Cetak Struk Thermal (ESC/POS)** — Kompatibel dengan printer Bluetooth & Wi-Fi TCP/IP (ukuran 58mm / 80mm) dengan pesan footer & header toko yang dapat dikustomisasi.
+- 🔄 **Offline-First & Auto Sync** — Beroperasi penuh tanpa koneksi internet menggunakan SQLite (Room DB) terenkripsi lokal dan otomatis melakukan sinkronisasi ke Supabase saat terhubung ke jaringan via WorkManager.
+- 🔐 **Keamanan & Kontrol Hak Akses (RBAC)** — Pemisahan peran Owner dan Kasir (Worker). Transaksi void/pembatalan memerlukan konfirmasi PIN milik Owner.
+- 📁 **Ekspor Laporan Excel (.xlsx)** — Ekspor data penjualan & keuangan ke format file Excel dengan rumus aktif via Apache POI.
 
 ---
 
-## 🏗️ Arsitektur
+## 🏗️ Arsitektur & Teknologi
 
+Aplikasi dibangun menggunakan prinsip **Clean Architecture** berbasis Android Modern Development (MAD):
+
+```text
+com.posly.app/
+├── data/
+│   ├── local/        # Room Database, DAO, & Encrypted Preferences
+│   ├── remote/       # Supabase Client Provider & API Service
+│   └── repository/   # Repository Implementations
+├── domain/
+│   ├── model/        # Core Business Entities (Product, Order, StoreSettings, etc.)
+│   ├── repository/   # Repository Interfaces
+│   └── usecase/      # Business Use Cases (ProcessPayment, VoidOrder, Finance, etc.)
+└── presentation/
+    ├── auth/         # Login, Register, Splash
+    ├── pos/          # Kasir, Search, Scanner, Cart, Checkout
+    ├── products/     # Katalog & Form Produk
+    ├── orders/       # Riwayat & Void Transaksi
+    ├── finance/      # Dashboard Laporan & Alokasi Dana
+    └── settings/     # Pengaturan Toko, Struk, QRIS, & User
 ```
-Clean Architecture + MVVM + MVI
-├── Presentation (Jetpack Compose + ViewModel)
-├── Domain (UseCases + Repository Interfaces)
-└── Data (Room DB + Supabase Remote + WorkManager Sync)
-```
 
-## 🎨 Design System
+### Tech Stack
 
-| Token | Hex | Penggunaan |
-|---|---|---|
-| Background | `#FFFFFF` | Layar utama kasir |
-| Surface/Card | `#F8FAFC` | Kartu produk |
-| Primary | `#4F6BED` | Tombol Proses Bayar |
-| Primary Container | `#EEF2FF` | Item terpilih |
-| Text Primary | `#1E293B` | Judul, total harga |
-| Text Secondary | `#64748B` | SKU, tanggal |
-| Border | `#E2E8F0` | Garis pemisah |
-
-## 📱 Adaptive Layout
-
-- **Mobile (< 840dp)**: Bottom Nav + katalog 2-kolom + floating cart bar
-- **Tablet (≥ 840dp)**: Navigation Rail + split-pane (katalog 60% | keranjang 40%)
-
-## 🛠️ Tech Stack
-
-| Layer | Library |
+| Layer | Komponen & Library |
 |---|---|
-| UI | Jetpack Compose, Material 3 |
-| Architecture | Clean Arch, Hilt DI |
-| Local DB | Room + SQLCipher |
-| Remote | Supabase (Auth, PostgreSQL, Storage, Realtime) |
-| Sync | WorkManager |
-| Printing | ESC/POS over Bluetooth/Wi-Fi |
-| Barcode | Google ML Kit |
-| Charts | MPAndroidChart |
-| Excel | Apache POI |
+| **UI Framework** | Jetpack Compose + Material Design 3 |
+| **Architecture** | Clean Architecture, MVVM + MVI, StateFlow, Kotlin Coroutines |
+| **Dependency Injection** | Dagger Hilt |
+| **Local Database** | Room DB + SQLCipher (Encrypted SQLite) |
+| **Remote Backend** | Supabase (PostgreSQL, Authentication, Realtime) |
+| **Background Sync** | Android WorkManager |
+| **Camera & Barcode** | CameraX + Google ML Kit Barcode Scanning |
+| **Printer Engine** | ESC/POS Command Builder (Bluetooth SPP & Wi-Fi Socket) |
+| **Excel Export** | Apache POI |
 
-## 🚀 Setup
+---
 
-### 1. Clone
+## 🚀 Panduan Setup & Instalasi
+
+### 1. Clone Repository
 
 ```bash
 git clone https://github.com/ikirieyu/PosLy.git
 cd PosLy
 ```
 
-### 2. Konfigurasi Supabase
+### 2. Konfigurasi Backend Supabase
 
-Buka aplikasi → **Pengaturan** → **Koneksi Database** → masukkan Supabase URL & Anon Key.
+1. Buat project baru di [Supabase Console](https://supabase.com).
+2. Jalankan script DDL SQL di `supabase/schema.sql` melalui **Supabase SQL Editor**.
+3. Buka aplikasi **PosLy** → masuk ke **Pengaturan** → **Koneksi Database Supabase** → isi **Supabase URL** & **Anon Key** Anda.
 
-### 3. Setup Database Supabase
+### 3. Build & Run Aplikasi
 
-Jalankan script SQL di `supabase/schema.sql` pada Supabase SQL Editor kamu.
+- Buka project di **Android Studio (Ladybug 2024.2+)**.
+- Pastikan JDK diset ke **Java 17+**.
+- Jalankan Sync Gradle (`Gradle Sync`).
+- Hubungkan perangkat Android / Emulator (min SDK 26) lalu tekan **Run (`Shift + F10`)**.
 
-### 4. Build
+---
 
-Buka di **Android Studio** (Ladybug / Meerkat), sync Gradle, lalu Run.
+## 📋 Spesifikasi Perangkat
 
-## 📋 Requirement
+- **Minimum SDK**: API 26 (Android 8.0 Oreo)
+- **Target SDK**: API 35 (Android 15)
+- **Gradle Version**: 9.7.0
+- **Android Gradle Plugin (AGP)**: 8.7.2
+- **JDK Target**: Java 17
 
-- Min SDK: **26** (Android 8.0 Oreo)
-- Target SDK: **35** (Android 15)
-- Android Studio: **Ladybug 2024.2+**
-- JDK: **17+**
+---
 
-## 🗺️ Roadmap
+## 📄 Lisensi
 
-- [x] Sprint 1: Fondasi Arsitektur & Database
-- [x] Sprint 2: POS Screen & Product Management
-- [x] Sprint 3: Finansial & Ekspor Excel
-- [x] Sprint 4: Security & Hardening
-
-## 📄 License
-
-MIT License — lihat [LICENSE](LICENSE).
+Proyek ini dirilis di bawah lisensi **MIT License** — lihat file [LICENSE](LICENSE) untuk detail lengkap.
