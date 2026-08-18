@@ -1,10 +1,12 @@
 package com.posly.app.domain.model
 
+import kotlinx.serialization.Serializable
 import java.util.UUID
 
 /**
  * Represents a single item in the shopping cart (active POS session).
  */
+@Serializable
 data class CartItem(
     val product: Product,
     val quantity: Int = 1,
@@ -30,6 +32,7 @@ data class CartItem(
 /**
  * Active POS cart state.
  */
+@Serializable
 data class Cart(
     val id: String = UUID.randomUUID().toString(),
     val items: List<CartItem> = emptyList(),
@@ -64,6 +67,7 @@ data class Cart(
 /**
  * Payment method enum.
  */
+@Serializable
 enum class PaymentMethod {
     CASH, QRIS
 }

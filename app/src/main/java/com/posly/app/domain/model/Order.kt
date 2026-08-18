@@ -1,10 +1,12 @@
 package com.posly.app.domain.model
 
+import kotlinx.serialization.Serializable
 import java.util.UUID
 
 /**
  * Sync status for offline-first architecture.
  */
+@Serializable
 enum class SyncStatus {
     PENDING,   // Not yet synced to Supabase
     SYNCED,    // Successfully synced
@@ -14,6 +16,7 @@ enum class SyncStatus {
 /**
  * Domain model for a completed order/transaction.
  */
+@Serializable
 data class Order(
     val id: String = UUID.randomUUID().toString(),
     val invoiceNumber: String,
@@ -38,6 +41,7 @@ data class Order(
 /**
  * Status of a transaction.
  */
+@Serializable
 enum class OrderStatus {
     COMPLETED, VOID, REFUNDED
 }
@@ -45,6 +49,7 @@ enum class OrderStatus {
 /**
  * Individual line item inside an order.
  */
+@Serializable
 data class OrderItem(
     val id: String = UUID.randomUUID().toString(),
     val orderId: String,

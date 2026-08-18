@@ -1,10 +1,12 @@
 package com.posly.app.domain.model
 
+import kotlinx.serialization.Serializable
 import java.util.UUID
 
 /**
  * Domain model for a product category.
  */
+@Serializable
 data class Category(
     val id: String = UUID.randomUUID().toString(),
     val name: String,
@@ -14,6 +16,7 @@ data class Category(
 /**
  * Domain model for a product with HPP and selling price.
  */
+@Serializable
 data class Product(
     val id: String = UUID.randomUUID().toString(),
     val categoryId: String? = null,
