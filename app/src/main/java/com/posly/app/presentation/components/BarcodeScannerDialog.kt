@@ -76,7 +76,7 @@ fun BarcodeScannerDialog(
                                         .addOnSuccessListener { barcodes ->
                                             for (barcode in barcodes) {
                                                 val rawValue = barcode.rawValue
-                                                if (!rawValue.isNull_or_blank() && !isScanned) {
+                                                if (rawValue != null && rawValue.isNotBlank() && !isScanned) {
                                                     isScanned = true
                                                     onBarcodeScanned(rawValue)
                                                     onDismiss()
@@ -139,5 +139,3 @@ fun BarcodeScannerDialog(
         }
     }
 }
-
-private fun String?.isNull_or_blank(): Boolean = this == null || this.trim().isEmpty()
